@@ -53,7 +53,7 @@ const typeDefs = gql`
 // schema. This resolver retrieves superhero data from the getSuperHero function (fetching API)
 const resolvers = {
   Query: {
-    superhero: () => getSuperHero(),
+    superhero: async () => await getSuperHero(),
   },
   Mutation: {
     postHero: async (_, { heroInfo }) => {

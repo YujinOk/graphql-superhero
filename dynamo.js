@@ -16,7 +16,7 @@ const getSuperHero = async () => {
     TableName: TABLE_NAME,
   };
   const heroes = await dynamoClient.scan(params).promise();
-  // console.log(heroes);
+  console.log(heroes);
   return heroes.Items;
 };
 
