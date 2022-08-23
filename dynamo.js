@@ -9,7 +9,7 @@ AWS.config.update({
 });
 
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = "superhero-api";
+const TABLE_NAME = "superhero-api-new";
 
 const getSuperHero = async () => {
   const params = {

@@ -49,8 +49,6 @@ const typeDefs = gql`
   }
 `;
 
-
-
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves superhero data from the getSuperHero function (fetching API)
 const resolvers = {
