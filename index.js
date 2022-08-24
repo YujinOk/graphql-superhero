@@ -1,5 +1,5 @@
 import { ApolloServer, gql } from "apollo-server";
-import { getSuperHero, addOrEditHero } from "./dynamo.js";
+import { getSuperHero, addOrEditHero, deleteHero } from "./dynamo.js";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -34,6 +34,9 @@ const typeDefs = gql`
     img: String
     powerstats: PowerstatsInput
   }
+  input DeleteSuperheroInput {
+    id: String
+  }
   type Response {
     success: Boolean!
     message: String
@@ -42,6 +45,7 @@ const typeDefs = gql`
   type Mutation {
     # mutationname(arg: argType): returnType
     postHero(heroInfo: SuperheroInput): Response
+    deletehero(heroID: DeleteSuperheroInput): Response
   }
 
   type Query {
@@ -59,12 +63,25 @@ const resolvers = {
     postHero: async (_, { heroInfo }) => {
       try {
         const postResults = await addOrEditHero(heroInfo);
+
         return {
           success: !!postResults,
           message: `${heroInfo.name} has been stored successfully!`,
         };
       } catch (e) {
         return { success: false, message: e };
+      }
+    },
+    deletehero: async (_, { heroID }) => {
+      try {
+        const deleteResults = await deleteHero(heroID.id);
+        return {
+          success: !!deleteResults,
+          message: `${heroID.id} has been deleted successfully!`,
+        };
+      } catch (e) {
+        // console.error(e);
+        return { success: false, message: e.message };
       }
     },
   },

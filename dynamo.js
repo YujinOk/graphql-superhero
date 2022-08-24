@@ -49,4 +49,23 @@ const addOrEditHero = async (heroInfo) => {
 
   return await dynamoClient.put(params).promise();
 };
-export { getSuperHero, addOrEditHero };
+
+const deleteHero = async (heroID) => {
+  const superheroes = await getSuperHero();
+  const foundExistingSuperHero = superheroes.find(({ id }) => {
+    return id === heroID;
+  });
+
+  if (!foundExistingSuperHero) {
+    throw new Error("item does not exist!");
+  }
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      id: heroID,
+    },
+  };
+
+  return await dynamoClient.delete(params).promise();
+};
+export { getSuperHero, addOrEditHero, deleteHero };
